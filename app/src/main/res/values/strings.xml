@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">cukit</string>
+
+    <!-- Strings para: el inicio de sesion -->
+    <string name="icorreo">Ingresa tu Correo</string>
+    <string name="icontra">Ingresa tu Contraseña</string>
+    <string name="IniSec">Iniciar Sesión</string>
+    <string name="Registrate"> Registrate</string>
+    <string name="AunNo">¿Aun no tengo cuenta? </string>
+    <string name="Correo"> Correo</string>
+    <string name="Contraseña">Contraseña </string>
+
+    <!-- Strings para: -->
+
+    <!-- Strings para:-->
+
+
+    <!-- Strings para: -->
+</resources>
