@@ -36,7 +36,6 @@ public class inicioSesion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
-        getSupportActionBar().hide();
 
         tvRegistrate = findViewById(R.id.Registrate);
         btnInicio = findViewById(R.id.btnIniciarSesion);

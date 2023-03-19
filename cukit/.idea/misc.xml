@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_inicio.xml" value="0.1" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_inicio.xml" value="0.33" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_inicio_sesion.xml" value="0.33" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_main.xml" value="0.22083333333333333" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_registrate.xml" value="0.22083333333333333" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_splash.xml" value="0.1" />
       </map>
     </option>
   </component>

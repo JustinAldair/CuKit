@@ -15,7 +15,6 @@ public class splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        getSupportActionBar().hide();
 
         //SharedPreferences es una clase para alamacenar información y preferencias en la aplicación
         SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
