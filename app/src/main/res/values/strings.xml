@@ -15,5 +15,6 @@
     <!-- Strings para:-->
 
 
-    <!-- Strings para: -->
+    <!-- Strings para: Populares -->
+    <string name="tvPopulares">Populares </string>
 </resources>

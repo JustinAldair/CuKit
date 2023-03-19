@@ -29,8 +29,8 @@
           android:layout_height="54dp"
           android:layout_weight="0.4"
           android:fontFamily="sans-serif"
-          android:text="@string/IniSec"
           android:textAlignment="textStart"
+          android:text="@string/IniSec"
           android:textColor="@color/black"
           android:textSize="30dp" />
 
