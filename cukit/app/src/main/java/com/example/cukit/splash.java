@@ -14,6 +14,7 @@ public class splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        getSupportActionBar().hide();
 
         // Creamos un handler para lanzar la actividad principal luego del tiempo de duración del splash screen
         new Handler().postDelayed(new Runnable() {
