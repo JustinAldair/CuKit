@@ -2,6 +2,7 @@ package com.example.cukit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,50 +54,78 @@ public class inicioSesion extends AppCompatActivity {
 
         btnInicio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                autenticarse();
+            public void onClick(View view) {
+                autenticarse(view);
             }
         });
     }
 
-    public void autenticarse(){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.78:3000/usuarios/auth";
+    public void autenticarse(View view){
 
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Procesando Datos...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+
+        //Volley es una biblioteca para realizar peticiones HTTP en segundo plano
+        RequestQueue queue = Volley.newRequestQueue(this);
+        
+        //SharedPreferences es una clase para alamacenar información y preferencias en la aplicación
+        SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
+        String ip_servidor = localStorage.getString("ip", "");//Obtengo la IP del servidor
+
+        //=========================================================
+        String url = "http://"+ip_servidor+":3000/usuarios/auth";
+        //=========================================================
+
+        //El siguiente código es el cuerpo de la petición en este caso POST
+        //Hay métodos para responder en caso de exito y en caso de error
+        //Hay métodos para agregar encabezados a la petición
+        //Hay métodos para mandar parametros en JSON
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(String response) { //En caso de éxito
                         try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String status = jsonObject.getString("status");
+                            progressDialog.dismiss();
 
-                            if(status == "false"){
-                                String msg = jsonObject.getString("msg");
-                                System.out.println(msg);
-                            }else{
-                                SharedPreferences localStorage = getSharedPreferences("token", MODE_PRIVATE);
+                            JSONObject jsonObject = new JSONObject(response);//Crear JSON con la respuesta
+                            String status = jsonObject.getString("status");//Obtener valores del JSON
+
+                            if(status == "false"){//Usuario No Autorizado
+                                Snackbar.make(view, "Correo o Contraseña Incorrectos", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }else{//Usuario Autenticado
+
+                                //Con SharedPreferences almacenó el token que mandó con JWT desde el servidor
+                                //este token se usara para autorizar cada petición que se desea ejecutar por el usuario.
+                                SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = localStorage.edit();
                                 editor.putString("token", jsonObject.getString("auth"));
                                 editor.commit();
 
+                                //Abrir la pantalla Inicio
                                 Intent intent = new Intent(inicioSesion.this, inicio.class);
                                 startActivity(intent);
                             }
 
-                        } catch (JSONException e) {
+                        } catch (JSONException e) {//Error al ejecutar algo en la respuesta
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener() {//En caso de error con el servidor
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("Error al Autenticar el Usuario: " + error);
+                        progressDialog.dismiss();
+
+                        Snackbar.make(view, "Se produjo un Error intentelo más Tarde", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                 }
         ){
-
+            //Establecer encabezados
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -103,6 +133,7 @@ public class inicioSesion extends AppCompatActivity {
                 return headers;
             }
 
+            //Mandar parametros a la petición en formato JSON
             @Override
             public byte[] getBody() throws AuthFailureError {
                 // Enviar un cuerpo JSON en la solicitud POST
@@ -117,6 +148,7 @@ public class inicioSesion extends AppCompatActivity {
             }
         };
 
+        //Agregamos la petición para ser procesada y ejecutada
         queue.add(request);
     }
 

@@ -1,5 +1,4 @@
 const express = require('express')
-const https = require('https');
 
 const app = express()
 const Router = require('./routes/rutas')
