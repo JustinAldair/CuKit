@@ -57,13 +57,14 @@
         android:padding="12dp">
 
       <EditText
-          android:id="@+id/editTextTextPersonName"
+          android:id="@+id/et_correo"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
+          android:hint="@string/icorreo"
           android:ems="10"
-          android:inputType="textPersonName"
-          android:text="@string/icorreo" />
+          android:text="dev@email.com"
+          android:inputType="textPersonName" />
     </LinearLayout>
 
     <TextView
@@ -93,9 +94,11 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
+          android:hint="@string/icontra"
           android:ems="10"
           android:inputType="textPersonName"
-          android:text="@string/icontra" />
+          android:text="1234"
+           />
 
     </LinearLayout>
 

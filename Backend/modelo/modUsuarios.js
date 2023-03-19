@@ -53,7 +53,7 @@ class ModUsuarios {
         if (err) return reject(err)
 
         //UNA VEZ CREADO EL USUARIO CREO SU PERFIL TOMANDO EL ID DEL USUARIO CREADO
-        connection.query(`INSERT INTO perfil(idUsuario, usuario, url_foto) VALUES ('${rows.insertId}', '${this.usuario}', null)`, (err, rows) => {
+        connection.query(`INSERT INTO perfil(idUsuario, usuario, url_foto, pais) VALUES ('${rows.insertId}', '${this.usuario}', null, null)`, (err, rows) => {
           if (err) return reject(err)
 
           return resolve(rows)
