@@ -5,13 +5,20 @@
     <string name="icorreo">Ingresa tu Correo</string>
     <string name="icontra">Ingresa tu Contraseña</string>
     <string name="IniSec">Iniciar Sesión</string>
-    <string name="Registrate"> Registrate</string>
-    <string name="AunNo">¿Aun no tengo cuenta? </string>
-    <string name="Correo"> Correo</string>
+    <string name="Registrate">Regístrate</string>
+    <string name="AunNo">¿Aún no tengo cuenta? </string>
+    <string name="Correo">Correo</string>
     <string name="Contraseña">Contraseña </string>
 
-    <!-- Strings para: -->
 
+    <!-- Strings para: Registrarse-->
+    <string name="r_Titulo">Regístrate</string>
+    <string name="r_Nombre">Nombre</string>
+    <string name="r_Correo">Correo</string>
+    <string name="r_Contraseña">Contraseña</string>
+    <string name="r_YaTengo">¿Ya tienes una cuenta?</string>
+    <string name="r_Iniciar">Iniciar sesión</string>
+    <string name="r_btn_Registrarse">Registrarse</string>
     <!-- Strings para:-->
 
 
