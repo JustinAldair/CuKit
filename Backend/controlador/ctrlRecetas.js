@@ -22,6 +22,26 @@ class Receta {
       })
   }
 
+  obtenerPopulares(req, res) {
+    let _ModReceta = new ModReceta()
+
+    _ModReceta.obtenerPopulares()
+      .then(rows => {
+        res.send({
+          msg: "Recetas Obtnenidas",
+          res: rows,
+          status: true
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.send({
+          msg: "Error al Obtener la Recetas",
+          status: false,
+        })
+      })
+  }
+
   cargarReceta(req, res) {
     let _ModReceta = new ModReceta()
     _ModReceta.setIdReceta = req.params.idReceta

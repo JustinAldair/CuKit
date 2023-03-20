@@ -19,7 +19,26 @@ class ModReceta {
 
   obtenerRecetas() {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT *FROM receta`, (err, row) => {
+      connection.query(`SELECT *, AVG(puntuacion.puntuacion) AS promedio_puntuaciones, receta.nombre as platillo, categoria.nombre as categoria FROM receta 
+      INNER JOIN puntuacion ON puntuacion.idReceta  = receta.idreceta
+      INNER JOIN categoria ON receta.idCategoria = categoria.idCategoria
+      GROUP BY receta.nombre, categoria.nombre;
+      `, (err, row) => {
+        if (err) return reject(err)
+
+        return resolve(row)
+      })
+    })
+  }
+
+  obtenerPopulares() {
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT receta.nombre, receta.url_fotos, puntuacion.puntuacion, categoria.nombre as categoria, perfil.url_foto as fotoPerfil FROM puntuacion 
+      INNER JOIN receta ON puntuacion.idReceta = receta.idreceta
+      INNER JOIN categoria ON categoria.idCategoria = receta.idCategoria
+      INNER JOIN perfil ON perfil.idPerfil = receta.idPerfil
+      WHERE puntuacion.puntuacion > 4.5
+      LIMIT 3;`, (err, row) => {
         if (err) return reject(err)
 
         return resolve(row)

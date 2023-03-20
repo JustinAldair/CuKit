@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <!-- Color Verde de la app: -->
     <color name="verdeapp">#64DB1F</color>
-    <color name="gris">#717171</color>
+    <color name="gris">#4B717171</color>
     <color name="tra">#0064DB1F</color>
     <color name="seed">#64DB1F</color>
     <color name="md_theme_light_primary">#64DB1F</color>

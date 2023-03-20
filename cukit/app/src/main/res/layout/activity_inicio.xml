@@ -10,18 +10,113 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:background="@color/white">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvPopulares"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:textSize="30dp"
+                android:layout_weight="1"
+                android:text="Categorias"
                 android:textColor="@color/black"
-                android:layout_gravity="center"/>
+                android:textSize="22dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="13dp"
+            android:orientation="horizontal">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_comedia_mexicana"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_comida_mexicana"
+                        android:text="Comida"
+                        android:textColor="#000" />
+
+                    <Button
+                        android:id="@+id/btn_desayuno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_desayuno"
+                        android:text="Desayunos"
+                        android:textColor="#000" />
+
+                    <Button
+                        android:id="@+id/btn_saludable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_saludable"
+                        android:text="Saludable"
+                        android:textColor="#000" />
+
+                    <Button
+                        android:id="@+id/btn_comida_rapida"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_comida_rapida"
+                        android:text="Comida Rápida"
+                        android:textColor="#000" />
+
+                    <Button
+                        android:id="@+id/btn_postres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_postres"
+                        android:text="Postres"
+                        android:textColor="#000" />
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="@string/tvPopulares"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/view_populares"
@@ -30,7 +125,35 @@
             android:layout_marginBottom="5dp"
             android:clipChildren="true"
             android:clipToPadding="true"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Recetas"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_recetas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
