@@ -64,7 +64,8 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Jonathan" />
+                    android:hint = "Ingresa tu Nombre"
+                    />
             </LinearLayout>
 
             <TextView
@@ -94,7 +95,8 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="jona@gmail.com" />
+                    android:hint = "Ingresa tu Correo"
+                    />
             </LinearLayout>
 
             <TextView
@@ -123,8 +125,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="1234" />
+                    android:inputType="textPassword"
+                    android:hint = "Ingresa tu Contraseña"
+                    />
             </LinearLayout>
 
             <LinearLayout

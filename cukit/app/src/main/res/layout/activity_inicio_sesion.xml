@@ -99,7 +99,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/icontra"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:text="1234" />
 
       </LinearLayout>
