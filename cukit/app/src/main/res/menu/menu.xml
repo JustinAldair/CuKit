@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/grupo1">
+
+        <item
+            android:id="@+id/op1"
+            android:icon="@drawable/ic_home"
+            android:title="Principal"></item>
+
+        <item
+            android:id="@+id/op2"
+            android:icon="@drawable/ic_person"
+            android:title="Pefil"></item>
+    </group>
+
+    <group
+        android:id="@+id/grupo2"
+        >
+
+        <item
+            android:id="@+id/op3"
+            android:icon="@drawable/ic_exit"
+            android:title="Cerrar Sesión"></item>
+
+    </group>
+
+</menu>

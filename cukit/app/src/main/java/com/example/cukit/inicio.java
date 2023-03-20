@@ -1,5 +1,6 @@
 package com.example.cukit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -22,6 +23,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -40,6 +42,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -56,6 +59,7 @@ public class inicio extends AppCompatActivity {
   ViewGroup view_populares, view_recetas;
   TableRow tr_recetas;
   Button btn_comedia_mexicana, btn_desayuno, btn_saludable, btn_comida_rapida, btn_postres;
+  NavigationView nav_view;
 
   private int count = 0;
 
@@ -79,6 +83,35 @@ public class inicio extends AppCompatActivity {
     btn_saludable.getTag(4);
     btn_comida_rapida.getTag(5);
     btn_postres.getTag(6);
+
+    nav_view = (NavigationView) findViewById(R.id.nav_view);
+    nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+      @Override
+      public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+          case R.id.op1:
+            Intent intent2 = new Intent(getApplicationContext(), inicio.class);
+            startActivity(intent2);
+            return true;
+          case R.id.op2:
+            return true;
+          case R.id.op3:
+            SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
+            SharedPreferences.Editor editor = localStorage.edit();
+            editor.remove("token");
+            editor.apply();
+
+            Intent intent = new Intent(getApplicationContext(), inicioSesion.class);
+            startActivity(intent);
+
+            return true;
+          default:
+            return false;
+        }
+      }
+
+    });
 
 
     SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);

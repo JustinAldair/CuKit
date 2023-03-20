@@ -52,6 +52,14 @@ public class inicioSesion extends AppCompatActivity {
             }
         });
 
+        SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
+        String token = localStorage.getString("token", "");
+
+        if(token.length() > 0){
+            Intent intent = new Intent(getApplicationContext(), inicio.class);
+            startActivity(intent);
+        }
+
         btnInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

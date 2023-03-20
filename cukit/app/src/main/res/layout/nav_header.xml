@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@color/verdeapp"
+    android:padding="16dp"
+    >
+
+    <ImageView
+        android:src="@drawable/loguito"
+        android:layout_width="96dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_height="96dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "EQUIPO NO. 5"
+        android:gravity="center"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "Programación para Móviles"
+        android:gravity="center"
+        />
+
+
+</LinearLayout>
