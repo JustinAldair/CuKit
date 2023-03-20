@@ -24,4 +24,13 @@
 
     <!-- Strings para: Populares -->
     <string name="tvPopulares">Populares </string>
+
+    <!-- Strings para: VerReceta-->
+    <string name="foto_receta">Foto de la receta</string>
+    <string name="nombre_receta">Nombre de la receta</string>
+    <string name="usuario_receta">Nombre de usuario</string>
+    <string name="tiempo_receta">40 minutos</string>
+    <string name="ingredientes_receta">Ingredientes</string>
+    <string name="pasos_receta">Pasos</string>
+
 </resources>
