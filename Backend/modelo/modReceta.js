@@ -1,7 +1,7 @@
 const connection = require("./conexion");
 
 class ModReceta {
-  constructor(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status) {
+  constructor(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status, tiempo) {
     this.idPerfil = idPerfil
     this.nombre = nombre
     this.descripcion = descripcion
@@ -10,6 +10,7 @@ class ModReceta {
     this.url_fotos = url_fotos
     this.idCategoria = idCategoria
     this.status = status
+    this.tiempo = tiempo
     this.idReceta = null;
   }
 
@@ -33,7 +34,7 @@ class ModReceta {
 
   obtenerPopulares() {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT receta.nombre, receta.url_fotos, puntuacion.puntuacion, categoria.nombre as categoria, perfil.url_foto as fotoPerfil FROM puntuacion 
+      connection.query(`SELECT receta.idreceta, receta.nombre, receta.url_fotos, puntuacion.puntuacion, categoria.nombre as categoria, perfil.url_foto as fotoPerfil FROM puntuacion 
       INNER JOIN receta ON puntuacion.idReceta = receta.idreceta
       INNER JOIN categoria ON categoria.idCategoria = receta.idCategoria
       INNER JOIN perfil ON perfil.idPerfil = receta.idPerfil
@@ -48,8 +49,13 @@ class ModReceta {
 
   obtenerReceta() {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT *FROM receta WHERE idReceta = ${this.idReceta}`, (err, row) => {
+      connection.query(`SELECT receta.*, AVG(puntuacion.puntuacion) as promedio, categoria.nombre as categoria, perfil.usuario, perfil.url_foto as fotoPerfil FROM receta 
+      INNER JOIN puntuacion ON puntuacion.idReceta = receta.idReceta
+      INNER JOIN categoria ON categoria.idCategoria = receta.idCategoria
+      INNER JOIN perfil ON perfil.idPerfil = receta.idPerfil
+      WHERE receta.idReceta = ${this.idReceta}`, (err, row) => {
         if (err) return reject(err)
+
 
         return resolve(row)
       })
@@ -59,8 +65,8 @@ class ModReceta {
   agregarReceta() {
 
     return new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO receta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status) 
-      VALUE(${this.idPerfil}, '${this.nombre}', '${this.descripcion}', '${this.ingredientes}', '${this.instrucciones}', '${this.url_fotos}', ${this.idCategoria}, ${this.status})`, (err, rows) => {
+      connection.query(`INSERT INTO receta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria,tiempo, status) 
+      VALUE(${this.idPerfil}, '${this.nombre}', '${this.descripcion}', '${this.ingredientes}', '${this.instrucciones}', '${this.url_fotos}', ${this.idCategoria},${this.tiempo}, ${this.status})`, (err, rows) => {
         if (err) return reject(err)
 
         return resolve(rows)

@@ -68,7 +68,7 @@
             android:ems="10"
             android:hint="@string/icorreo"
             android:inputType="textPersonName"
-            android:text="dev@email.com" />
+            android:text="dev@team.com" />
       </LinearLayout>
 
       <TextView

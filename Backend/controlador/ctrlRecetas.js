@@ -64,9 +64,9 @@ class Receta {
 
   agregarReceta(req, res) {
 
-    let { idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status } = req.body
+    let { idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, tiempo, status } = req.body
 
-    let _ModReceta = new ModReceta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status);
+    let _ModReceta = new ModReceta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status, tiempo);
 
     _ModReceta.agregarReceta()
       .then(row => {

@@ -3,8 +3,6 @@
 -- Host: 127.0.0.1    Database: cukit
 -- ------------------------------------------------------
 -- Server version	8.0.23
-CREATE DATABASE cukit;
-USE cukit;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -21,6 +19,9 @@ USE cukit;
 -- Table structure for table `categoria`
 --
 
+CREATE DATABASE cukit;
+USE cukit;
+
 DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -28,7 +29,7 @@ CREATE TABLE `categoria` (
   `idcategoria` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idcategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+) ENGINE=InnoDB AUTO_INCREMENT=7  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +48,7 @@ CREATE TABLE `comentarios` (
   PRIMARY KEY (`idcomentarios`),
   KEY `idReceta_idx` (`idReceta`),
   CONSTRAINT `idReceta` FOREIGN KEY (`idReceta`) REFERENCES `receta` (`idreceta`)
-) ENGINE=InnoDB AUTO_INCREMENT=8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,12 +62,12 @@ CREATE TABLE `perfil` (
   `idperfil` int NOT NULL AUTO_INCREMENT,
   `idUsuario` int NOT NULL,
   `usuario` varchar(45) NOT NULL,
-  `url_foto` varchar(45) DEFAULT NULL,
-  `pais` varchar(45) NOT NULL,
+  `url_foto` text,
+  `pais` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idperfil`),
   KEY `idUsuario_idx` (`idUsuario`),
   CONSTRAINT `idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+) ENGINE=InnoDB AUTO_INCREMENT=4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +86,7 @@ CREATE TABLE `puntuacion` (
   PRIMARY KEY (`idpuntuacion`),
   KEY `idReceta_idx` (`idReceta`),
   CONSTRAINT `idRecetaPuntuacion` FOREIGN KEY (`idReceta`) REFERENCES `receta` (`idreceta`)
-) ENGINE=InnoDB AUTO_INCREMENT=7;
+) ENGINE=InnoDB AUTO_INCREMENT=9  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,13 +105,14 @@ CREATE TABLE `receta` (
   `instrucciones` text NOT NULL,
   `url_fotos` text NOT NULL,
   `idCategoria` int NOT NULL,
+  `tiempo` int NOT NULL,
   `status` tinyint NOT NULL,
   PRIMARY KEY (`idreceta`),
   KEY `idCategoria_idx` (`idCategoria`),
   KEY `idPerfil_idx` (`idPerfil`),
   CONSTRAINT `idCategoria` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idcategoria`),
   CONSTRAINT `idPerfil` FOREIGN KEY (`idPerfil`) REFERENCES `perfil` (`idperfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
+) ENGINE=InnoDB AUTO_INCREMENT=7  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,12 +125,12 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `apellido_p` varchar(45) NOT NULL,
-  `apellido_m` varchar(45) NOT NULL,
+  `apellido_p` varchar(45) DEFAULT NULL,
+  `apellido_m` varchar(45) DEFAULT NULL,
   `pass` varchar(45) NOT NULL,
   `correo` varchar(45) NOT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=15;
+) ENGINE=InnoDB AUTO_INCREMENT=21  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -140,5 +142,16 @@ CREATE TABLE `usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+ALTER TABLE usuario AUTO_INCREMENT = 0;
+ALTER TABLE categoria AUTO_INCREMENT = 0;
+
 INSERT INTO usuario(nombre, apellido_p, apellido_m, pass, correo) VALUES('team.dev', 'dev', 'dev', '1234', 'dev@team.com');
--- Dump completed on 2023-03-18 18:46:11
+INSERT INTO categoria(nombre) VALUES('Mariscos');
+INSERT INTO categoria(nombre) VALUES('Comida');
+INSERT INTO categoria(nombre) VALUES('Desayunos');
+INSERT INTO categoria(nombre) VALUES('Saludable');
+INSERT INTO categoria(nombre) VALUES('Desayunos');
+INSERT INTO categoria(nombre) VALUES('Comida Rápida');
+INSERT INTO categoria(nombre) VALUES('Postres');
+
+-- Dump completed on 2023-03-19 23:54:02

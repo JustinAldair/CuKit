@@ -1,32 +1,16 @@
 package com.example.cukit;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class inicio extends AppCompatActivity {
+public class inicio extends AppCompatActivity implements View.OnClickListener{
 
   ViewGroup view_populares, view_recetas;
   TableRow tr_recetas;
@@ -93,6 +77,7 @@ public class inicio extends AppCompatActivity {
           case R.id.op1:
             Intent intent2 = new Intent(getApplicationContext(), inicio.class);
             startActivity(intent2);
+            finish();
             return true;
           case R.id.op2:
             return true;
@@ -104,6 +89,7 @@ public class inicio extends AppCompatActivity {
 
             Intent intent = new Intent(getApplicationContext(), inicioSesion.class);
             startActivity(intent);
+            finishAffinity();
 
             return true;
           default:
@@ -115,8 +101,14 @@ public class inicio extends AppCompatActivity {
 
 
     SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
-    String token = localStorage.getString("token", "");
+    String token = localStorage.getString("token", null);
 
+
+    if(token == null){
+      Intent intent = new Intent(getApplicationContext(), inicioSesion.class);
+      startActivity(intent);
+      finish();
+    }
 
     obtenerFavoritos(token);
     obtenerRecetas(token);
@@ -143,6 +135,7 @@ public class inicio extends AppCompatActivity {
                   for (int i = 0; i < res.length(); i++) {
                     JSONObject objeto = res.getJSONObject(i);
 
+                    String idReceta = objeto.getString("idreceta");
                     String nombre = objeto.getString("nombre");
                     String categoria = objeto.getString("categoria");
                     String url_fotos = objeto.getString("url_fotos");
@@ -150,18 +143,20 @@ public class inicio extends AppCompatActivity {
 
                     String[] fotoComida = url_fotos.split(",");
 
-                    cargarFavoritos(nombre, categoria, fotoComida[0], foto_perfil);
+                    cargarFavoritos(nombre, categoria, fotoComida[0], foto_perfil, idReceta);
                   }
 
                 } catch (JSONException e) {//Error al ejecutar algo en la respuesta
                   e.printStackTrace();
-                  System.out.println("Se produjo un error: "+ e);
+                  Snackbar.make(getWindow().getDecorView(), "Error al Cargar las Recetas Populares", Snackbar.LENGTH_LONG)
+                          .setAction("Action", null).show();
                 }
               }
             }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-            System.out.println("Se produjo un error: "+ error);
+          Snackbar.make(getWindow().getDecorView(), "Error Intentelo Más Tarde", Snackbar.LENGTH_LONG)
+                  .setAction("Action", null).show();
         }
       }){
       //Establecer encabezados
@@ -214,27 +209,29 @@ public class inicio extends AppCompatActivity {
                     fotos.add(fotoComida[0]);
 
                     if(ids.size()%2 == 0){
-                      cargarRecetas(platillos, fotos, puntuacion);
+                      cargarRecetas(platillos, fotos, puntuacion, ids);
                       ids.clear();
                       platillos.clear();
                       fotos.clear();
                       puntuacion.clear();
                       puntuacion.clear();
                     }else if(i+1 >= res.length()){
-                      cargarRecetas(platillos, fotos, puntuacion);
+                      cargarRecetas(platillos, fotos, puntuacion, ids);
                     }
 
                   }
 
                 } catch (JSONException e) {//Error al ejecutar algo en la respuesta
                   e.printStackTrace();
-                  System.out.println("Se produjo un error al Obtener Recetas: "+ e);
+                  Snackbar.make(getWindow().getDecorView(), "Error al Obtener las Recetas", Snackbar.LENGTH_LONG)
+                          .setAction("Action", null).show();
                 }
               }
             }, new Response.ErrorListener() {
       @Override
       public void onErrorResponse(VolleyError error) {
-        System.out.println("Se produjo un error al Obtener Recetas: "+ error);
+        Snackbar.make(getWindow().getDecorView(), "Intentelo Más Tarde", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
       }
     }){
       //Establecer encabezados
@@ -250,10 +247,21 @@ public class inicio extends AppCompatActivity {
   //=============================================
 
   //Cargar en Pantalla Dinamicamente
-  public void cargarFavoritos(String nombre, String categoria, String fotoComida, String foto_perfil){
+  public void cargarFavoritos(String nombre, String categoria, String fotoComida, String foto_perfil, String idReceta){
     LayoutInflater inflater = LayoutInflater.from(this);
     int id = R.layout.receta_popular;
     RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
+
+    CardView cardView = (CardView) relativeLayout.findViewById(R.id.cardView);
+    cardView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), VerReceta.class);
+            intent.putExtra("idReceta", idReceta);
+            startActivity(intent);
+        }
+    });
+
 
     TextView tv_nombre = (TextView) relativeLayout.findViewById(R.id.tv_nombre);
     TextView tv_categoria = (TextView) relativeLayout.findViewById(R.id.tv_categoria);
@@ -281,7 +289,7 @@ public class inicio extends AppCompatActivity {
   }
 
   //Cada ArrayList unicamente tendrá como máximo 2 datos ya que se generaran 2 CardView como máximo por cada TableRow
-  public void cargarRecetas(ArrayList nombres, ArrayList fotosComida, ArrayList puntuaciones) {
+  public void cargarRecetas(ArrayList nombres, ArrayList fotosComida, ArrayList puntuaciones, ArrayList ids) {
     LayoutInflater inflater = LayoutInflater.from(this);
 
     //Componente que tinene un TableRow la cual tendra como máximo 2 CardView
@@ -322,6 +330,17 @@ public class inicio extends AppCompatActivity {
         viewGroup.addView(relativeLayout3);
       }
 
+      String idReceta = ids.get(i).toString();
+      CardView cardView = (CardView) relativeLayout2.findViewById(R.id.view_card_comida);
+      cardView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Intent intent = new Intent(getApplicationContext(), VerReceta.class);
+          intent.putExtra("idReceta", idReceta);
+          startActivity(intent);
+        }
+      });
+
       //VOY AGREGANDO CADA CardView A un linear Layout
       linearLayout.addView(relativeLayout2, new LinearLayout.LayoutParams(cardWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
@@ -332,6 +351,15 @@ public class inicio extends AppCompatActivity {
     //Finalamente cargo la tableRow al View el cual se vizualizara al usuario
     view_recetas.addView(relativeLayout);
 
+  }
+
+  @Override
+  public void onClick(View v) {
+
+  }
+
+  @Override
+  public void onBackPressed() {
   }
 
 }
