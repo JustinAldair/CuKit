@@ -65,6 +65,7 @@ class Usuario {
         })
       })
       .catch(err => {
+        console.log(err)
         res.send({
           msg: "Error al Actualizar el Pefil",
           status: false
@@ -76,8 +77,8 @@ class Usuario {
 
   comentar(req, res) {
 
-    let { idReceta, usuario, comentario, fecha } = req.body
-    let _modelComentarios = new modelComentarios(idReceta, usuario, comentario, fecha)
+    let { idReceta, usuario, comentario, fecha, idPerfil } = req.body
+    let _modelComentarios = new modelComentarios(idReceta, usuario, comentario, fecha, idPerfil)
 
     _modelComentarios.guardarComentario()
       .then(row => {
@@ -129,7 +130,8 @@ class Usuario {
       .then(row => {
         res.send({
           msg: "Usuario Autenticado",
-          auth: row,
+          auth: row["token"],
+          idPerfil: row["row"][0]["idperfil"],
           status: true
         })
       })

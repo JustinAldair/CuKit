@@ -1,4 +1,8 @@
 const connection = require("./conexion");
+let fs = require('fs');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+
 
 class ModReceta {
   constructor(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, status, tiempo) {
@@ -21,13 +25,15 @@ class ModReceta {
   obtenerRecetas() {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT *, AVG(puntuacion.puntuacion) AS promedio_puntuaciones, receta.nombre as platillo, categoria.nombre as categoria FROM receta 
-      INNER JOIN puntuacion ON puntuacion.idReceta  = receta.idreceta
+      LEFT JOIN puntuacion ON puntuacion.idReceta  = receta.idreceta
       INNER JOIN categoria ON receta.idCategoria = categoria.idCategoria
       GROUP BY receta.nombre, categoria.nombre;
       `, (err, row) => {
+
         if (err) return reject(err)
 
         return resolve(row)
+
       })
     })
   }
@@ -38,7 +44,7 @@ class ModReceta {
       INNER JOIN receta ON puntuacion.idReceta = receta.idreceta
       INNER JOIN categoria ON categoria.idCategoria = receta.idCategoria
       INNER JOIN perfil ON perfil.idPerfil = receta.idPerfil
-      WHERE puntuacion.puntuacion > 4.5
+      WHERE puntuacion.puntuacion > 4
       LIMIT 3;`, (err, row) => {
         if (err) return reject(err)
 
@@ -50,7 +56,7 @@ class ModReceta {
   obtenerReceta() {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT receta.*, AVG(puntuacion.puntuacion) as promedio, categoria.nombre as categoria, perfil.usuario, perfil.url_foto as fotoPerfil FROM receta 
-      INNER JOIN puntuacion ON puntuacion.idReceta = receta.idReceta
+      LEFT JOIN puntuacion ON puntuacion.idReceta = receta.idReceta
       INNER JOIN categoria ON categoria.idCategoria = receta.idCategoria
       INNER JOIN perfil ON perfil.idPerfil = receta.idPerfil
       WHERE receta.idReceta = ${this.idReceta}`, (err, row) => {
@@ -65,14 +71,43 @@ class ModReceta {
   agregarReceta() {
 
     return new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO receta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria,tiempo, status) 
-      VALUE(${this.idPerfil}, '${this.nombre}', '${this.descripcion}', '${this.ingredientes}', '${this.instrucciones}', '${this.url_fotos}', ${this.idCategoria},${this.tiempo}, ${this.status})`, (err, rows) => {
-        if (err) return reject(err)
 
-        return resolve(rows)
+      this.subirFoto(this.url_fotos)
+        .then(row => {
+          connection.query(`INSERT INTO receta(idPerfil, nombre, descripcion, ingredientes, instrucciones, url_fotos, idCategoria, tiempo, status) 
+          VALUE(${this.idPerfil}, '${this.nombre}', '${this.descripcion}', '${this.ingredientes}', '${this.instrucciones}', '${row},', ${this.idCategoria},${this.tiempo},false)`, (err, rows) => {
+            if (err) return reject(err)
 
-      })
+            return resolve(rows)
+
+          })
+        })
+        .catch(err => {
+
+        })
+
     })
+
+  }
+
+  subirFoto(base64) {
+
+    const base64Image = base64.split(';base64,').pop();
+    const filename = `${uuidv4()}.jpg`;
+
+    const filePath = path.join(__dirname, '../imagenes', filename);
+
+    return new Promise((resolve, reject) => {
+      fs.writeFile(filePath, base64Image, { encoding: 'base64' }, (error) => {
+        if (error) {
+          console.error('Error al guardar la imagen:', error);
+          return reject(error)
+
+        } else {
+          return resolve(filename)
+        }
+      });
+    });
 
   }
 
@@ -113,7 +148,12 @@ class ModReceta {
     return new Promise((resolve, reject) => {
 
       //USO UN INNER JOIN PARA UNIR LAS TABLES QUE ESTAN RELACIONADAS ENTRE SI Y DE ESA MANERA OBTENER LOS COMENTARIOS POR EL ID DE LA RECETA
-      connection.query(`SELECT comentario, usuario, fecha FROM comentarios INNER JOIN receta ON comentarios.idReceta = receta.idReceta WHERE comentarios.idReceta = ${this.idReceta}`, (err, row) => {
+      connection.query(`SELECT comentario, comentarios.usuario, fecha, perfil.url_foto FROM comentarios 
+      INNER JOIN receta ON comentarios.idReceta = receta.idReceta
+      INNER JOIN perfil ON comentarios.idPerfil = perfil.idperfil
+      WHERE comentarios.idReceta = ${this.idReceta}
+      ORDER BY idComentarios DESC;
+      `, (err, row) => {
         if (err) return reject(err)
 
         return resolve(row)

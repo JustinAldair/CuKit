@@ -43,6 +43,19 @@ class ModUsuarios {
     this.pais = pais
   }
 
+
+  obtenerInfo(idPerfil) {
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT *FROM perfil
+      INNER JOIN usuario ON perfil.idUsuario = usuario.idUsuario
+      WHERE perfil.idPerfil = ${idPerfil}`, (err, rows) => {
+        if (err || rows.length == 0) return reject(err)
+        return resolve(rows)
+      })
+    })
+  }
+
+
   crearCuenta() {
 
     return new Promise((resolve, reject) => {
@@ -53,7 +66,7 @@ class ModUsuarios {
         if (err) return reject(err)
 
         //UNA VEZ CREADO EL USUARIO CREO SU PERFIL TOMANDO EL ID DEL USUARIO CREADO
-        connection.query(`INSERT INTO perfil(idUsuario, usuario, url_foto, pais) VALUES ('${rows.insertId}', '${this.usuario}', null, null)`, (err, rows) => {
+        connection.query(`INSERT INTO perfil(idUsuario, usuario, url_foto, pais) VALUES ('${rows.insertId}', '${this.usuario}', 'user_default.png', null)`, (err, rows) => {
           if (err) return reject(err)
 
           return resolve(rows)
@@ -93,7 +106,9 @@ class ModUsuarios {
 
   iniciarSesion() {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT *FROM usuario WHERE correo = '${this.correo}' and pass='${this.pass}'`, (err, row) => {
+      connection.query(`SELECT perfil.idperfil FROM usuario 
+      INNER JOIN perfil ON perfil.idUsuario = usuario.idUsuario
+      WHERE correo = '${this.correo}' and pass='${this.pass}'`, (err, row) => {
 
         if (err || row.length == 0) return reject(err)
 
@@ -114,7 +129,7 @@ class ModUsuarios {
         const token = jwt.sign(payload, SECRET_KEY, options);
 
         //ENVIO EL TOKEN AL CLIENTE; ESTE TOKEN DEBERA SER ALMACENADO EN EL CLIENTE LOCALMENTE PAR FUTURA PETICIONES
-        return resolve(token)
+        return resolve({ token, row })
       })
     })
   }

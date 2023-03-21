@@ -3,6 +3,9 @@
 -- Host: 127.0.0.1    Database: cukit
 -- ------------------------------------------------------
 -- Server version	8.0.23
+CREATE DATABASE cukit;
+USE cukit;
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,9 +22,6 @@
 -- Table structure for table `categoria`
 --
 
-CREATE DATABASE cukit;
-USE cukit;
-
 DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -29,7 +29,7 @@ CREATE TABLE `categoria` (
   `idcategoria` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idcategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=7  ;
+) ENGINE=InnoDB AUTO_INCREMENT=10  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,10 +45,12 @@ CREATE TABLE `comentarios` (
   `usuario` varchar(45) NOT NULL,
   `comentario` text NOT NULL,
   `fecha` date NOT NULL,
+  `idPerfil` int DEFAULT NULL,
   PRIMARY KEY (`idcomentarios`),
   KEY `idReceta_idx` (`idReceta`),
+  KEY `idPerfil_idx` (`idPerfil`),
   CONSTRAINT `idReceta` FOREIGN KEY (`idReceta`) REFERENCES `receta` (`idreceta`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB AUTO_INCREMENT=25  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +69,7 @@ CREATE TABLE `perfil` (
   PRIMARY KEY (`idperfil`),
   KEY `idUsuario_idx` (`idUsuario`),
   CONSTRAINT `idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4  ;
+) ENGINE=InnoDB AUTO_INCREMENT=5  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,7 +88,7 @@ CREATE TABLE `puntuacion` (
   PRIMARY KEY (`idpuntuacion`),
   KEY `idReceta_idx` (`idReceta`),
   CONSTRAINT `idRecetaPuntuacion` FOREIGN KEY (`idReceta`) REFERENCES `receta` (`idreceta`)
-) ENGINE=InnoDB AUTO_INCREMENT=9  ;
+) ENGINE=InnoDB AUTO_INCREMENT=18  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +114,7 @@ CREATE TABLE `receta` (
   KEY `idPerfil_idx` (`idPerfil`),
   CONSTRAINT `idCategoria` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idcategoria`),
   CONSTRAINT `idPerfil` FOREIGN KEY (`idPerfil`) REFERENCES `perfil` (`idperfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=7  ;
+) ENGINE=InnoDB AUTO_INCREMENT=20  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +132,7 @@ CREATE TABLE `usuario` (
   `pass` varchar(45) NOT NULL,
   `correo` varchar(45) NOT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=21  ;
+) ENGINE=InnoDB AUTO_INCREMENT=2  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -143,9 +145,14 @@ CREATE TABLE `usuario` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 ALTER TABLE usuario AUTO_INCREMENT = 0;
+ALTER TABLE comentarios AUTO_INCREMENT = 0;
+ALTER TABLE puntuacion AUTO_INCREMENT = 0;
+ALTER TABLE perfil AUTO_INCREMENT = 0;
+ALTER TABLE receta AUTO_INCREMENT = 0;
 ALTER TABLE categoria AUTO_INCREMENT = 0;
 
 INSERT INTO usuario(nombre, apellido_p, apellido_m, pass, correo) VALUES('team.dev', 'dev', 'dev', '1234', 'dev@team.com');
+INSERT INTO perfil(idusuario, usuario, url_foto, pais) VALUES(1, 'teamDev', 'user_default.png', null);
 INSERT INTO categoria(nombre) VALUES('Mariscos');
 INSERT INTO categoria(nombre) VALUES('Comida');
 INSERT INTO categoria(nombre) VALUES('Desayunos');
@@ -154,4 +161,4 @@ INSERT INTO categoria(nombre) VALUES('Desayunos');
 INSERT INTO categoria(nombre) VALUES('Comida Rápida');
 INSERT INTO categoria(nombre) VALUES('Postres');
 
--- Dump completed on 2023-03-19 23:54:02
+-- Dump completed on 2023-03-20 20:17:05

@@ -8,9 +8,15 @@
             android:title="Principal"></item>
 
         <item
+            android:id="@+id/op4"
+            android:icon="@drawable/ic_recetas_usuario"
+            android:title="Mis Recetas"></item>
+
+        <item
             android:id="@+id/op2"
             android:icon="@drawable/ic_person"
             android:title="Pefil"></item>
+
     </group>
 
     <group

@@ -1,4 +1,5 @@
 const connection = require("./conexion");
+const ModReceta = require("./modReceta");
 
 class ModPerfil {
   constructor(id) {
@@ -22,11 +23,20 @@ class ModPerfil {
 
   editarPerfil() {
     return new Promise((resolve, reject) => {
-      connection.query(`UPDATE perfil SET usuario='${this.usuario}', url_foto='${this.url_foto}', pais='${this.pais}' WHERE idPerfil = ${this.idPerfil}`, (err, row) => {
-        if (err) return reject(err)
+      new ModReceta().subirFoto(this.url_foto)
+        .then(row => {
+          connection.query(`UPDATE perfil SET usuario='${this.usuario}', url_foto='${row}', pais='${this.pais}' WHERE idPerfil = ${this.idPerfil}`, (err, row) => {
+            if (err) return reject(err)
 
-        return resolve(row)
-      })
+
+            return resolve(row)
+          })
+        })
+        .catch(err => {
+          return reject(err)
+        })
+
+
     })
 
   }

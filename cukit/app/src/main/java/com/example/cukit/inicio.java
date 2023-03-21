@@ -60,6 +60,8 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
     btn_saludable = (Button) findViewById(R.id.btn_saludable);
     btn_comida_rapida = (Button) findViewById(R.id.btn_comida_rapida);
     btn_postres = (Button) findViewById(R.id.btn_postres);
+    ViewGroup ly_card = (ViewGroup) findViewById(R.id.ly_card);
+    ly_card.setVisibility(View.GONE);
 
     //Asigno los IDs de las categorias registradas en la BD a cada boton
     btn_comedia_mexicana.getTag(2);
@@ -79,8 +81,13 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
             startActivity(intent2);
             finish();
             return true;
+
           case R.id.op2:
+            intent2 = new Intent(getApplicationContext(), Perfil.class);
+            startActivity(intent2);
+            finish();
             return true;
+
           case R.id.op3:
             SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
             SharedPreferences.Editor editor = localStorage.edit();
@@ -92,6 +99,13 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
             finishAffinity();
 
             return true;
+
+          case R.id.op4:
+            intent = new Intent(getApplicationContext(), AgregarReceta.class);
+            startActivity(intent);
+            finish();
+            return true;
+
           default:
             return false;
         }
@@ -248,6 +262,9 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
 
   //Cargar en Pantalla Dinamicamente
   public void cargarFavoritos(String nombre, String categoria, String fotoComida, String foto_perfil, String idReceta){
+    SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
+    String ip_servidor = localStorage.getString("ip", "");//Obtengo la IP del servidor
+
     LayoutInflater inflater = LayoutInflater.from(this);
     int id = R.layout.receta_popular;
     RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
@@ -268,13 +285,13 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
     ImageView image_comida = (ImageView) relativeLayout.findViewById(R.id.image_comida);
     tv_nombre.setText(nombre);
     tv_categoria.setText(categoria);
-    String imageUrl = fotoComida;
+    String imageUrl = "http://"+ip_servidor+":3000/imagen/"+fotoComida;
     Glide.with(this)
             .load(imageUrl)
             .override(200, 200)
             .into(image_comida);
 
-    imageUrl = foto_perfil;
+    imageUrl = "http://"+ip_servidor+":3000/imagen/"+foto_perfil;
     ImageView image_usuario = (ImageView) relativeLayout.findViewById(R.id.profile_image);
     Glide.with(this)
             .load(imageUrl)
@@ -290,6 +307,9 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
 
   //Cada ArrayList unicamente tendrá como máximo 2 datos ya que se generaran 2 CardView como máximo por cada TableRow
   public void cargarRecetas(ArrayList nombres, ArrayList fotosComida, ArrayList puntuaciones, ArrayList ids) {
+    SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
+    String ip_servidor = localStorage.getString("ip", "");//Obtengo la IP del servidor
+
     LayoutInflater inflater = LayoutInflater.from(this);
 
     //Componente que tinene un TableRow la cual tendra como máximo 2 CardView
@@ -312,7 +332,9 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
     for (int i = 0; i < nombres.size(); i++) {
       RelativeLayout relativeLayout2 = (RelativeLayout) inflater.inflate(R.layout.card_comida_solo, null);
       ImageView image_comida = (ImageView) relativeLayout2.findViewById(R.id.image_comida_card_1);
-      String imageUrl = fotosComida.get(i).toString();
+
+
+      String imageUrl =  "http://"+ip_servidor+":3000/imagen/"+fotosComida.get(i).toString();
       Glide.with(this)
               .load(imageUrl)
               .override(200, 200)
@@ -321,14 +343,18 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
       tv_nombre.setText(nombres.get(i).toString());
 
       //Carga ImageView que son estrellas que representan la puntuación del la receta donde 5 es la maxima calificación.
-      float puntuacion_float = Float.parseFloat(puntuaciones.get(i).toString());
-      int puntuacion_int = (int) Math.floor(puntuacion_float);
 
-      for(int j=0; j<puntuacion_int; j++){
-        ViewGroup viewGroup = (ViewGroup)  relativeLayout2.findViewById(R.id.view_stars);
-        RelativeLayout relativeLayout3 = (RelativeLayout) inflater.inflate(R.layout.star, null);
-        viewGroup.addView(relativeLayout3);
+      if(puntuaciones.get(i).toString() != "null"){
+        float puntuacion_float = Float.parseFloat(puntuaciones.get(i).toString());
+        int puntuacion_int = (int) Math.floor(puntuacion_float);
+
+        for(int j=0; j<puntuacion_int; j++){
+          ViewGroup viewGroup = (ViewGroup)  relativeLayout2.findViewById(R.id.view_stars);
+          RelativeLayout relativeLayout3 = (RelativeLayout) inflater.inflate(R.layout.star, null);
+          viewGroup.addView(relativeLayout3);
+        }
       }
+
 
       String idReceta = ids.get(i).toString();
       CardView cardView = (CardView) relativeLayout2.findViewById(R.id.view_card_comida);

@@ -160,7 +160,7 @@ class Receta {
         res.send({
           msg: "Comentarios Obtenidos",
           res: row,
-          status: false
+          status: true
         })
       }))
       .catch(err => {

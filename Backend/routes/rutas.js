@@ -14,10 +14,14 @@ let _Receta = new Receta()
 //RUTAS USUARIOS
 Router.post('/usuario/registrarse', _Usuario.crearCuenta)
 Router.post('/usuarios/auth', _Usuario.iniciarSesion)
+Router.get('/usuarios/info/:idPerfil', verificar, _App.obtnerDatosUsuario)
+
 
 //RUTAS PERFIL
 Router.put('/perfil/actualizar/:idPerfil', verificar, _Usuario.editarPerfil)
 
+
+Router.post('/subirfoto', _App.subirFoto)
 
 //RUTAS RECETAS
 Router.post('/recetas/agregar', verificar, _Receta.agregarReceta)

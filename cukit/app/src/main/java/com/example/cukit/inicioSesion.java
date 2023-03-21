@@ -111,6 +111,7 @@ public class inicioSesion extends AppCompatActivity {
                                 SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = localStorage.edit();
                                 editor.putString("token", jsonObject.getString("auth"));
+                                editor.putString("idPefil", jsonObject.getString("idPerfil"));
                                 editor.commit();
 
                                 //Abrir la pantalla Inicio
