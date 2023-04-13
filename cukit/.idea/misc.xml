@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/border.xml" value="0.112" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/circle.xml" value="0.209" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1255" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1255" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/img.xml" value="0.209" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/drawable/round_image.xml" value="0.112" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/activity_agregar_receta.xml" value="0.33" />
@@ -18,10 +20,12 @@
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/card_comida.xml" value="0.33" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/card_comida_solo.xml" value="0.2234375" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/comentario.xml" value="0.4746317512274959" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/input.xml" value="0.25" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/nav_header.xml" value="0.22447916666666667" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/receta_popular.xml" value="0.5" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/layout/star.xml" value="0.22447916666666667" />
         <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/menu/menu.xml" value="0.22447916666666667" />
+        <entry key="..\:/Mega/Proyectos_en_Desarrollo/Cukit/cukit/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2025" />
       </map>
     </option>
   </component>
