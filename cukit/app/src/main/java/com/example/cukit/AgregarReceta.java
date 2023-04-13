@@ -3,24 +3,50 @@ package com.example.cukit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.media.ImageReader;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
+import android.util.Size;
 import android.view.MenuItem;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,9 +64,13 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,14 +81,19 @@ public class AgregarReceta extends AppCompatActivity {
     Spinner spinner;
     EditText et_platillo, et_descripcion, et_ingredientes, et_instrucciones, et_tiempo;
     ArrayList<String> idCategorias = new ArrayList<>();
-    Button btn_guardar, btn_cargar_img;
+    Button btn_guardar, btn_cargar_img, button_capture;
     TextView tv_statusImg;
     ImageView iv_comida_agregar;
+
+    TextureView textureView;
 
     private String base64Image;
 
     private static final String BASE = "data:image/png;base64,";
     private String sImage = "";
+
+
+    private static final int CAMERA_REQUEST = 1888;
 
 
     @Override
@@ -140,7 +175,21 @@ public class AgregarReceta extends AppCompatActivity {
         });
 
         obtenerCategorias();
+
+        button_capture = (Button) findViewById(R.id.button_capture);
+        button_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
+
+
+
     }
+
+
 
     private void galleryIntent(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -303,6 +352,15 @@ public class AgregarReceta extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            System.out.println("CORRECT");
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            iv_comida_agregar.setImageBitmap(photo);
+            iv_comida_agregar.setVisibility(View.VISIBLE);
+            tv_statusImg.setVisibility(View.VISIBLE);
+
+        }
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
