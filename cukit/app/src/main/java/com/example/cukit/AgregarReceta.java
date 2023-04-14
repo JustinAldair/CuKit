@@ -365,13 +365,20 @@ public class AgregarReceta extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            System.out.println("CORRECT");
             Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+
             iv_comida_agregar.setImageBitmap(photo);
             iv_comida_agregar.setVisibility(View.VISIBLE);
             tv_statusImg.setVisibility(View.VISIBLE);
 
         }
+
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
@@ -394,6 +401,8 @@ public class AgregarReceta extends AppCompatActivity {
                 }
             });
         }
+
+
     }
 
     @Override
