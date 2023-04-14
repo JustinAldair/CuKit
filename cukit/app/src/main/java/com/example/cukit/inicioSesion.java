@@ -1,7 +1,5 @@
 package com.example.cukit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,15 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableRow;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,7 +28,7 @@ import java.util.Map;
 
 public class inicioSesion extends AppCompatActivity {
     TextView tvRegistrate;
-    Button btnInicio;
+    Button btnInicio, btnInfo;
     EditText et_correo, etContraseña;
 
     @Override
@@ -40,6 +38,7 @@ public class inicioSesion extends AppCompatActivity {
 
         tvRegistrate = findViewById(R.id.Registrate);
         btnInicio = findViewById(R.id.btnIniciarSesion);
+        btnInfo = findViewById(R.id.btnInfo);
 
         et_correo = findViewById(R.id.et_correo);
         etContraseña = findViewById(R.id.etContraseña);
@@ -64,6 +63,14 @@ public class inicioSesion extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 autenticarse(view);
+            }
+        });
+
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Info.class);
+                startActivity(intent);
             }
         });
     }

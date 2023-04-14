@@ -32,5 +32,6 @@
     <string name="tiempo_receta">40 minutos</string>
     <string name="ingredientes_receta">Ingredientes</string>
     <string name="pasos_receta">Pasos</string>
+    <string name="infoEmpresa">Acerca del equipo</string>
 
 </resources>
