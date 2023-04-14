@@ -3,6 +3,8 @@ package com.example.cukit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -128,6 +130,17 @@ public class Perfil extends AppCompatActivity {
                 ActualizarDatos(v);
             }
         });
+
+
+        DrawerLayout drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ImageView btn_menu = (ImageView) findViewById(R.id.btn_menu);
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer_layout.openDrawer(GravityCompat.START);
+            }
+        });
+
 
         obtenerInfo();
     }

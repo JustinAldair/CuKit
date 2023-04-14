@@ -2,6 +2,8 @@ package com.example.cukit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +46,8 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
   TableRow tr_recetas;
   Button btn_comedia_mexicana, btn_desayuno, btn_saludable, btn_comida_rapida, btn_postres;
   NavigationView nav_view;
+  ImageView btn_menu;
+  DrawerLayout drawer_layout;
 
   private int count = 0;
 
@@ -61,6 +65,7 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
     btn_comida_rapida = (Button) findViewById(R.id.btn_comida_rapida);
     btn_postres = (Button) findViewById(R.id.btn_postres);
     ViewGroup ly_card = (ViewGroup) findViewById(R.id.ly_card);
+    btn_menu = (ImageView) findViewById(R.id.btn_menu);
     ly_card.setVisibility(View.GONE);
 
     //Asigno los IDs de las categorias registradas en la BD a cada boton
@@ -113,6 +118,13 @@ public class inicio extends AppCompatActivity implements View.OnClickListener{
 
     });
 
+    drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    btn_menu.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        drawer_layout.openDrawer(GravityCompat.START);
+      }
+    });
 
     SharedPreferences localStorage = getSharedPreferences("localstorage", MODE_PRIVATE);
     String token = localStorage.getString("token", null);
