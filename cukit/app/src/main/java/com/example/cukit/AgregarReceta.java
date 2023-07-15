@@ -87,8 +87,6 @@ public class AgregarReceta extends AppCompatActivity {
     TextView tv_statusImg;
     ImageView iv_comida_agregar;
 
-    TextureView textureView;
-
     private String base64Image;
 
     private static final String BASE = "data:image/png;base64,";
@@ -99,7 +97,7 @@ public class AgregarReceta extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_receta);
 
@@ -412,4 +410,5 @@ public class AgregarReceta extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }

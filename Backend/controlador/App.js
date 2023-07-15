@@ -21,7 +21,6 @@ class App {
         })
       })
 
-
   }
 
   cargarCategorias(req, res) {
